@@ -1,0 +1,6 @@
+@ClayDoorsApi_HostAddress = http://localhost:5123
+
+GET {{ClayDoorsApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
