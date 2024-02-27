@@ -45,6 +45,12 @@ namespace DoorManagementSystem.Application.Services
         {
             return await _userRepository.AddRoleToUserAsync(userId, roleId);
         }
+        public async Task<bool> IsUserAdminForDoorAsync(int userId, int doorId)
+        {
+            return await _userRepository.IsUserAdminForDoorAsync(userId, doorId);
+
+        }
+
 
     }
 

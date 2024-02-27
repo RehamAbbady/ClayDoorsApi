@@ -1,4 +1,5 @@
-﻿using DoorManagementSystem.Domain.Entities;
+﻿using DoorManagementSystem.Application.DTOs;
+using DoorManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace DoorManagementSystem.Application.Interfaces.IServices
 {
     public interface ITokenService
     {
-        string GenerateJwtToken(Users user, IEnumerable<Roles> roles);
+        string GenerateJwtToken(Users user);
     }
 }

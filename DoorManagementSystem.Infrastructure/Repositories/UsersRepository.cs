@@ -1,4 +1,5 @@
-﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
+﻿using DoorManagementSystem.Application.DTOs;
+using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -78,5 +79,18 @@ namespace DoorManagementSystem.Infrastructure.Repositories
             return true;
         }
 
+        public async Task<bool> IsUserAdminForDoorAsync(int userId, int doorId)
+        {
+         
+            var isAdminForDoor = await _context.UserRoles
+                .Join(_context.RoleDoorAccess,
+                      userRole => userRole.RoleId,
+                      roleDoor => roleDoor.RoleId,
+                      (userRole, roleDoor) => new { userRole, roleDoor })
+                .Where(x => x.userRole.UserId == userId && x.roleDoor.DoorId == doorId)
+                .AnyAsync(x => x.userRole.AdminRole); 
+
+            return isAdminForDoor;
+        }
     }
 }

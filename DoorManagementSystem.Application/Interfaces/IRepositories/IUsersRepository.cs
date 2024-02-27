@@ -1,4 +1,5 @@
-﻿using DoorManagementSystem.Domain.Entities;
+﻿using DoorManagementSystem.Application.DTOs;
+using DoorManagementSystem.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace DoorManagementSystem.Application.Interfaces.IRepositories
         Task<IEnumerable<Roles>> GetUserRolesAsync(int userId);
         Task<bool> RemoveRoleFromUserAsync(int userId, int roleId);
         Task<bool> AddRoleToUserAsync(int userId, int roleId);
+        Task<bool> IsUserAdminForDoorAsync(int userId, int doorId);
 
 
 

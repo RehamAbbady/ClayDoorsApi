@@ -19,11 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Middleware\" />
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\DoorManagementSystem.Application\DoorManagementSystem.Application.csproj" />
     <ProjectReference Include="..\DoorManagementSystem.Infrastructure\DoorManagementSystem.Infrastructure.csproj" />
   </ItemGroup>

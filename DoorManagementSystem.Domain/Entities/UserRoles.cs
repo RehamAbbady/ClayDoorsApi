@@ -17,6 +17,8 @@ namespace DoorManagementSystem.Domain.Entities
         [Column("role_id")]
         [Required]
         public int RoleId { get; set; }
+        [Column("admin_role")]
+        public bool AdminRole { get; set; }
         public Users User { get; set; } = null!;
         public Roles Role { get; set; } = null!;
     }

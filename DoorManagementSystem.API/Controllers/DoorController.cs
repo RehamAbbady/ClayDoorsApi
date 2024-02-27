@@ -2,7 +2,7 @@
 
 namespace DoorManagementSystem.API.Controllers
 {
-    [Route("api/doors")]
+    [Route("[controller]")]
     [ApiController]
     public class DoorController : Controller
     { 

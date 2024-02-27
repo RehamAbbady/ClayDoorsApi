@@ -1,9 +1,14 @@
-﻿using DoorManagementSystem.Application.Interfaces.IServices;
+﻿using DoorManagementSystem.API.Filters;
+using DoorManagementSystem.API.Models;
+using DoorManagementSystem.Application.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoorManagementSystem.API.Controllers
 {
     [Route("api/door-logs")]
+    [Authorize]
+    [AdminForDoorAuthorization]
 
     public class DoorLogsController : Controller
     {
@@ -13,9 +18,13 @@ namespace DoorManagementSystem.API.Controllers
             _doorLogsService = doorLogsService;
         }
         [HttpGet]
-        public async Task<IActionResult> GetAccessLogs([FromQuery] int? userId, [FromQuery] int? doorId, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate, [FromQuery] bool? isSuccess)
+        public async Task<IActionResult> GetAccessLogs([FromQuery] AccessLogQuery query)
         {
-            var logs = await _doorLogsService.GetAccessLogsAsync(userId, doorId, startDate, endDate, isSuccess);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var logs = await _doorLogsService.GetAccessLogsAsync(query.UserId,query.DoorId , query.StartDate, query.EndDate, query.IsSuccess);
             return Ok(logs);
         }
     }

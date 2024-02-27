@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Application.DTOs
 {
-    public class AccessCheckDto
+    public class UserDoorAccessDetailsDto
     {
-        public int UserId { get; set; }
         public int DoorId { get; set; }
-        public string TagCode { get; set; }
-        public bool IsRemoteAccessRequested { get; set; }
+        public string DoorName { get; set; }
+        public string RoleName { get; set; }
+        public bool IsAdmin { get; set; }
     }
 }

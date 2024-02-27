@@ -1,3 +1,4 @@
+using DoorManagementSystem.API.Middleware;
 using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Application.Mappers;
@@ -18,14 +19,14 @@ builder.Configuration
                 optional: true, reloadOnChange: true);
 var configuration = builder.Configuration;
 
-//builder.Configuration.AddEnvironmentVariables();
+builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddControllers();
-
-
-
 builder.Services.AddCors();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddDebug();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DoorManagementContext>(
@@ -33,10 +34,15 @@ builder.Services.AddDbContext<DoorManagementContext>(
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IDoorsRepository, DoorsRepository>();
 builder.Services.AddScoped<IAccessControlRepository, AccessControlRepository>();
+builder.Services.AddScoped<IDoorLogsRepository, DoorLogsRepository>();
+
 
 builder.Services.AddScoped<IUsersService, UserService>();
 builder.Services.AddScoped<IAccessControlService, AccessControlService>();
 builder.Services.AddScoped<IDoorLogsService, DoorLogsService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<ISecurityService, SecurityService>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 builder.Services.AddAuthentication(options =>
@@ -67,6 +73,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseHttpsRedirection();
 

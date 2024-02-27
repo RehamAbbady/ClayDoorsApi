@@ -12,13 +12,14 @@ using System.Text;
 
 namespace DoorManagementSystem.API.Controllers
 {
+    [Route("[controller]")]
+
     public class AuthController
         : Controller
     {
         private readonly IUsersRepository _userRepository;
         private readonly ITokenService _tokenService;
         private readonly ISecurityService _securityService;
-        private readonly IConfiguration _configuration;
         public AuthController(IUsersRepository userRepository, ITokenService tokenService, ISecurityService securityService)
         {
             _userRepository = userRepository;
@@ -34,10 +35,8 @@ namespace DoorManagementSystem.API.Controllers
             {
                 return Unauthorized();
             }
-            var roles = await _userRepository.GetUserRolesAsync(user.UserId);
 
-
-            var token = _tokenService.GenerateJwtToken(user, roles);
+            var token = _tokenService.GenerateJwtToken(user);
             return Ok(new { Token = token });
         }
     }

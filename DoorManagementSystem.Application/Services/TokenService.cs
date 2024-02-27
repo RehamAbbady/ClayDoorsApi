@@ -1,9 +1,12 @@
-﻿using DoorManagementSystem.Application.Interfaces.IServices;
+﻿using DoorManagementSystem.Application.DTOs;
+using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -20,14 +23,11 @@ namespace DoorManagementSystem.Application.Services
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(Users user, IEnumerable<Roles> roles)
+        public string GenerateJwtToken(Users user)
         {
             var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-            new Claim(JwtRegisteredClaimNames.Email, user.Email),
-            new Claim("user_roles", string.Join(",", roles))
-
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString())
 
         };
 

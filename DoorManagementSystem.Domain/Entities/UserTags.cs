@@ -22,6 +22,7 @@ namespace DoorManagementSystem.Domain.Entities
 
         [Required]
         [Column("tag_code")]
+        [StringLength(12, MinimumLength = 12)]
         public string TagCode { get; set; }
 
         public Users User { get; set; }

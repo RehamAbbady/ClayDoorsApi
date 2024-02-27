@@ -16,6 +16,7 @@ namespace DoorManagementSystem.Application.Interfaces.IServices
 
         public Task<bool> RemoveRoleFromUserAsync(int userId, int roleId);
         public Task<bool> AddRoleToUserAsync(int userId, int roleId);
+        public Task<bool> IsUserAdminForDoorAsync(int userId, int doorId);
 
     }
 }
