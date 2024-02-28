@@ -8,7 +8,7 @@ namespace DoorManagementSystem.Application.Mappers
     {
         public AutoMapperProfile()
         {
-            CreateMap<UserDto, Users>().ReverseMap();
+            CreateMap<UserDto, User>().ReverseMap();
             CreateMap<AccessRequestDto, RoleDoorAccess>().ReverseMap();
 
         }

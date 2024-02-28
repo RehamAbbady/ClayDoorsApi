@@ -15,22 +15,22 @@ namespace DoorManagementSystem.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Users>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
             return await _context.Users.ToListAsync();
         }
 
-        public async Task<Users?> GetByIdAsync(int id)
+        public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
         }
-        public async Task<Users?> GetUserByEmailAsync(string email)
+        public async Task<User?> GetUserByEmailAsync(string email)
         {
             return await _context.Users
                                  .AsNoTracking()
                                  .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
-        public async Task<List<UserTags>> GetUserTagsAsync(int userId)
+        public async Task<List<UserTag>> GetUserTagsAsync(int userId)
         {
             return await _context.UserTags
                 .Where(ut => ut.UserId == userId)
@@ -42,7 +42,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
             return await _context.UserTags
                 .AnyAsync(ut => ut.UserId == userId && ut.TagCode == tagCode);
         }
-        public async Task<IEnumerable<Roles>> GetUserRolesAsync(int userId)
+        public async Task<IEnumerable<Role>> GetUserRolesAsync(int userId)
         {
             return await _context.UserRoles
                 .Where(ur => ur.UserId == userId)
@@ -72,7 +72,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 return false;
             }
 
-            var userRole = new UserRoles { UserId = userId, RoleId = roleId };
+            var userRole = new UserRole { UserId = userId, RoleId = roleId };
             _context.UserRoles.Add(userRole);
             await _context.SaveChangesAsync();
             return true;

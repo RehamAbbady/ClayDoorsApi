@@ -11,7 +11,7 @@ namespace DoorManagementSystem.Test
 {
     public class AuthControllerTests
     {
-        private readonly Mock<IUsersRepository> _userRepositoryMock = new();
+        private readonly Mock<IUsersService> _userServiceMock = new();
         private readonly Mock<ITokenService> _tokenServiceMock = new();
         private readonly Mock<ISecurityService> _securityServiceMock = new();
 
@@ -19,12 +19,12 @@ namespace DoorManagementSystem.Test
         public async Task GenerateToken_ValidCredentials_ReturnsOkResultWithToken()
         {
             // Arrange
-            var user = new User { Email = "test@test.com", PinHash = "hashedPin" };
+            var user = new UserDto { Email = "test@test.com", PinHash = "hashedPin" };
             var authRequest = new AuthRequestDto { Email = "test@test.com", Pin = "1234" };
-            _userRepositoryMock.Setup(repo => repo.GetUserByEmailAsync(authRequest.Email)).ReturnsAsync(user);
+            _userServiceMock.Setup(service => service.GetUserDetailsByEmailAsync(authRequest.Email)).ReturnsAsync(user);
             _securityServiceMock.Setup(service => service.VerifyPin(authRequest.Pin, user.PinHash)).Returns(true);
             _tokenServiceMock.Setup(service => service.GenerateJwtToken(user)).Returns("testToken");
-            var controller = new AuthController(_userRepositoryMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
+            var controller = new AuthController(_userServiceMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
 
             // Act
             var result = await controller.GenerateToken(authRequest);
@@ -40,8 +40,8 @@ namespace DoorManagementSystem.Test
         {
             // Arrange
             var authRequest = new AuthRequestDto { Email = "test@test.com", Pin = "1234" };
-            _userRepositoryMock.Setup(repo => repo.GetUserByEmailAsync(authRequest.Email)).ReturnsAsync((User)null);
-            var controller = new AuthController(_userRepositoryMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
+            _userServiceMock.Setup(service => service.GetUserDetailsByEmailAsync(authRequest.Email)).ReturnsAsync((UserDto)null);
+            var controller = new AuthController(_userServiceMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
 
             // Act
             var result = await controller.GenerateToken(authRequest);
@@ -49,5 +49,36 @@ namespace DoorManagementSystem.Test
             // Assert
             Assert.IsType<UnauthorizedResult>(result);
         }
+        [Fact]
+        public async Task GenerateToken_InvalidPin_ReturnsUnauthorizedResult()
+        {
+            // Arrange
+            var user = new UserDto { Email = "test@test.com", PinHash = "hashedPin" };
+            var authRequest = new AuthRequestDto { Email = "test@test.com", Pin = "1234" };
+            _userServiceMock.Setup(service => service.GetUserDetailsByEmailAsync(authRequest.Email)).ReturnsAsync(user);
+            _securityServiceMock.Setup(service => service.VerifyPin(authRequest.Pin, user.PinHash)).Returns(false);
+            var controller = new AuthController(_userServiceMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
+
+            // Act
+            var result = await controller.GenerateToken(authRequest);
+
+            // Assert
+            Assert.IsType<UnauthorizedResult>(result);
+        }
+
+        [Fact]
+        public async Task GenerateToken_NullRequest_ReturnsBadRequestResult()
+        {
+            // Arrange
+            _userServiceMock.Setup(service => service.GetUserDetailsByEmailAsync(It.IsAny<string>())).ReturnsAsync((UserDto)null);
+            var controller = new AuthController(_userServiceMock.Object, _tokenServiceMock.Object, _securityServiceMock.Object);
+
+            // Act
+            var result = await controller.GenerateToken(null);
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
     }
 }

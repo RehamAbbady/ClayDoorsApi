@@ -10,19 +10,19 @@ namespace DoorManagementSystem.API.Controllers
     public class AuthController
         : Controller
     {
-        private readonly IUsersRepository _userRepository;
+        private readonly IUsersService _userService;
         private readonly ITokenService _tokenService;
         private readonly ISecurityService _securityService;
-        public AuthController(IUsersRepository userRepository, ITokenService tokenService, ISecurityService securityService)
+        public AuthController(IUsersService userService, ITokenService tokenService, ISecurityService securityService)
         {
-            _userRepository = userRepository;
+            _userService = userService;
             _tokenService = tokenService;
             _securityService = securityService;
         }
         [HttpPost("token")]
         public async Task<IActionResult> GenerateToken([FromBody] AuthRequestDto authRequest)
         {
-            var user = await _userRepository.GetUserByEmailAsync(authRequest.Email);
+            var user = await _userService.GetUserDetailsByEmailAsync(authRequest.Email);
 
             if (user == null || !_securityService.VerifyPin(authRequest.Pin, user.PinHash))
             {

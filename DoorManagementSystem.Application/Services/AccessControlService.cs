@@ -58,7 +58,7 @@ namespace DoorManagementSystem.Application.Services
                 }
             }
 
-            await _doorLogsRepository.LogAccessAttemptAsync(new DoorLogs
+            await _doorLogsRepository.LogAccessAttemptAsync(new DoorLog
             {
                 UserID = userId,
                 DoorID = doorId,

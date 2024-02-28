@@ -1,4 +1,5 @@
-﻿using DoorManagementSystem.Application.Interfaces.IServices;
+﻿using DoorManagementSystem.Application.DTOs;
+using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -16,7 +17,7 @@ namespace DoorManagementSystem.Application.Services
             _configuration = configuration;
         }
 
-        public string GenerateJwtToken(Users user)
+        public string GenerateJwtToken(UserDto user)
         {
             var claims = new List<Claim>
         {

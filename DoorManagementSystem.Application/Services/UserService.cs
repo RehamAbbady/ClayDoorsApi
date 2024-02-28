@@ -7,7 +7,6 @@ using DoorManagementSystem.Domain.Entities;
 
 namespace DoorManagementSystem.Application.Services
 {
-    // In Application project
     public class UserService : IUsersService
     {
         private readonly IUsersRepository _userRepository;
@@ -33,9 +32,11 @@ namespace DoorManagementSystem.Application.Services
             return _mapper.Map<UserDto>(user);
 
         }
-        public async Task<Users?> GetUserDetailsByEmailAsync(string email)
+        public async Task<UserDto?> GetUserDetailsByEmailAsync(string email)
         {
-            return await _userRepository.GetUserByEmailAsync(email);
+            var user= await _userRepository.GetUserByEmailAsync(email);
+            return _mapper.Map<UserDto?>(user);
+
         }
         public async Task<bool> RemoveRoleFromUserAsync(int userId, int roleId)
         {

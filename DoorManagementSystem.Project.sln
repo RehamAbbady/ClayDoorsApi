@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoorManagementSystem.Infras
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoorManagementSystem.API", "DoorManagementSystem.API\DoorManagementSystem.API.csproj", "{8E67E12E-220D-4F81-BE93-43A1399E0876}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DoorManagementSystem.Test", "DoorManagementSystem.Test\DoorManagementSystem.Test.csproj", "{B50A5D95-2491-4B68-B8E5-F0D9495344BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{8E67E12E-220D-4F81-BE93-43A1399E0876}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E67E12E-220D-4F81-BE93-43A1399E0876}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E67E12E-220D-4F81-BE93-43A1399E0876}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B50A5D95-2491-4B68-B8E5-F0D9495344BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B50A5D95-2491-4B68-B8E5-F0D9495344BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B50A5D95-2491-4B68-B8E5-F0D9495344BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B50A5D95-2491-4B68-B8E5-F0D9495344BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

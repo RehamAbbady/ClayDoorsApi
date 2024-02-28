@@ -13,7 +13,7 @@ namespace DoorManagementSystem.Application.Services
             _doorLogsRepository = doorLogRepository;
         }
 
-        public async Task<List<DoorLogs>> GetAccessLogsAsync(int? userId = null, int? doorId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isSuccess = null)
+        public async Task<List<DoorLog>> GetAccessLogsAsync(int? userId = null, int? doorId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isSuccess = null)
         {
             return await _doorLogsRepository.GetAccessLogsAsync(userId, doorId, startDate, endDate, isSuccess);
         }

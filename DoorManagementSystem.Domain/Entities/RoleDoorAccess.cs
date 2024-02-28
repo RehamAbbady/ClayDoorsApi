@@ -20,7 +20,7 @@ namespace DoorManagementSystem.Domain.Entities
         [Column("door_id")]
         public int DoorId { get; set; }
 
-        public Roles Role { get; set; }
-        public Doors Door { get; set; }
+        public Role Role { get; set; }
+        public Door Door { get; set; }
     }
 }

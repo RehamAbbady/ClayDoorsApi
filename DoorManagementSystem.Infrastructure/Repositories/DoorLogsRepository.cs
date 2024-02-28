@@ -11,12 +11,12 @@ namespace DoorManagementSystem.Infrastructure.Repositories
         {
             _context = context;
         }
-        public async Task LogAccessAttemptAsync(DoorLogs doorLog)
+        public async Task LogAccessAttemptAsync(DoorLog doorLog)
         {
             _context.DoorLogs.Add(doorLog);
             await _context.SaveChangesAsync();
         }
-        public async Task<List<DoorLogs>> GetAccessLogsAsync(int? userId = null, int? doorId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isSuccess = null)
+        public async Task<List<DoorLog>> GetAccessLogsAsync(int? userId = null, int? doorId = null, DateTime? startDate = null, DateTime? endDate = null, bool? isSuccess = null)
         {
             var query = _context.DoorLogs.AsQueryable();
 
