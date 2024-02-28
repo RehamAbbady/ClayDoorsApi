@@ -12,7 +12,6 @@ namespace DoorManagementSystem.API.Filters
         {
             var usersService = context.HttpContext.RequestServices.GetService<IUsersService>();
 
-            // Extract user and door information from the context
             var userId = context.HttpContext.User.Claims.FirstOrDefault(c => c.Type == JwtRegisteredClaimNames.Sub)?.Value;
             var doorIdAsString = context.RouteData.Values["doorId"] as string;
             int doorId = 0;
@@ -21,7 +20,6 @@ namespace DoorManagementSystem.API.Filters
                 doorId = parsedDoorId;
             }
 
-            // Perform the check
             bool hasAccess = usersService.IsUserAdminForDoorAsync(Int32.Parse(userId), doorId).Result;
 
             if (!hasAccess)

@@ -2,6 +2,7 @@
 using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace DoorManagementSystem.API.Controllers
 {
@@ -20,13 +21,17 @@ namespace DoorManagementSystem.API.Controllers
             _securityService = securityService;
         }
         [HttpPost("token")]
-        public async Task<IActionResult> GenerateToken([FromBody] AuthRequestDto authRequest)
+        public async Task<IActionResult> GenerateToken([Required][FromBody] AuthRequestDto authRequest)
         {
+            if (authRequest == null || !ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var user = await _userService.GetUserDetailsByEmailAsync(authRequest.Email);
 
             if (user == null || !_securityService.VerifyPin(authRequest.Pin, user.PinHash))
             {
-                return Unauthorized();
+                return Unauthorized("wrong pin or email");
             }
 
             var token = _tokenService.GenerateJwtToken(user);

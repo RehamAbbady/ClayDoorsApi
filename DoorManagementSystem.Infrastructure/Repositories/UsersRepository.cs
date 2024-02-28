@@ -30,12 +30,6 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                                  .AsNoTracking()
                                  .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
-        public async Task<List<UserTag>> GetUserTagsAsync(int userId)
-        {
-            return await _context.UserTags
-                .Where(ut => ut.UserId == userId)
-                .ToListAsync();
-        }
 
         public async Task<bool> IsValidTagAsync(int userId, string tagCode)
         {

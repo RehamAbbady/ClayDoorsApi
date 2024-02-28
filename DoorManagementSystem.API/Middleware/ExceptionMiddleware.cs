@@ -1,4 +1,7 @@
-﻿using System.Text.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
+using System.Net;
+using System.Text.Json;
 
 namespace DoorManagementSystem.API.Middleware
 {
@@ -17,7 +20,7 @@ namespace DoorManagementSystem.API.Middleware
         {
             try
             {
-                await _next(httpContext); // Call the next middleware in the pipeline
+                await _next(httpContext); 
             }
             catch (Exception ex)
             {
@@ -29,12 +32,48 @@ namespace DoorManagementSystem.API.Middleware
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+
+            var statusCode = HttpStatusCode.InternalServerError;
+            var message = "Internal Server Error";
+            var details = exception.Message;
+
+            switch (exception)
+            {
+                case DbUpdateConcurrencyException:
+                    statusCode = HttpStatusCode.Conflict;
+                    message = "Database concurrency error occurred";
+                    break;
+                case DbUpdateException dbUpdateException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = "Database update error occurred";
+                    details = dbUpdateException.InnerException?.Message ?? details;
+                    break;
+                case ValidationException validationException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = "Validation errors occurred";
+                    details = validationException.Message;
+                    break;
+                case UnauthorizedAccessException:
+                    statusCode = HttpStatusCode.Unauthorized;
+                    message = "Unauthorized access";
+                    break;
+                case NullReferenceException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = "Null reference exception occurred";
+                    break;
+                case ArgumentException:
+                    statusCode = HttpStatusCode.BadRequest;
+                    message = "Argument errors occurred";
+                    details = exception.Message;
+                    break;
+            }
+
+            context.Response.StatusCode = (int)statusCode;
 
             return context.Response.WriteAsync(new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
-                Message = $"Internal Server Error {exception.Message}"
+                Message = $"{message}: {details}"
             }.ToString());
         }
 

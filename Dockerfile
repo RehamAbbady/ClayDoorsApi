@@ -9,7 +9,7 @@ COPY DoorManagementSystem.Domain/*.csproj ./DoorManagementSystem.Domain/
 COPY DoorManagementSystem.Application/*.csproj ./DoorManagementSystem.Application/
 COPY DoorManagementSystem.Test/*.csproj ./DoorManagementSystem.Test/
 
-RUN dotnet restore
+RUN dotnet restore --verbosity detailed /p:RestoreMaxCpus=1
 
 COPY DoorManagementSystem.API/. ./DoorManagementSystem.API/
 COPY DoorManagementSystem.Infrastructure/. ./DoorManagementSystem.Infrastructure/

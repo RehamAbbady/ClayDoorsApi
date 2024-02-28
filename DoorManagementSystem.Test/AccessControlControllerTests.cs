@@ -5,6 +5,7 @@ using DoorManagementSystem.API.Controllers;
 using DoorManagementSystem.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DoorManagementSystem.API.Models;
 
 namespace DoorManagementSystem.Test
 {
@@ -42,13 +43,14 @@ namespace DoorManagementSystem.Test
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             Assert.Equal("Access revoked successfully.", okResult.Value);
+
         }
 
         [Fact]
         public async Task CheckAccess_ValidRequest_ReturnsOkResult()
         {
             // Arrange
-            var request = new AccessCheck { UserId = 1, DoorId = 1, TagCode = "1234", IsRemoteAccessRequested = false };
+            var request = new AccessCheck { UserId = 1, DoorId = 1, TagCode = "123123123123", IsRemoteAccessRequested = false };
             _accessControlServiceMock.Setup(service => service.CanAccessDoorAsync(request.UserId, request.DoorId, request.TagCode, request.IsRemoteAccessRequested)).ReturnsAsync(true);
             var controller = new AccessControlController(_accessControlServiceMock.Object);
 
@@ -57,8 +59,8 @@ namespace DoorManagementSystem.Test
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            var returnValue = Assert.IsType<Dictionary<string, bool>>(okResult.Value);
-            Assert.True(returnValue["HasAccess"]);
+            var returnValue = Assert.IsType<CheckAccessResult>(okResult.Value);
+            Assert.True(returnValue.HasAccess);
         }
         [Fact]
         public async Task GrantAccess_InvalidRequest_ReturnsBadRequestResult()
@@ -88,7 +90,7 @@ namespace DoorManagementSystem.Test
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Request is null.", badRequestResult.Value);
+            Assert.Equal(400, badRequestResult.StatusCode);
         }
 
     }

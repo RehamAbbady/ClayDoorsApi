@@ -7,6 +7,7 @@ using DoorManagementSystem.Infrastructure;
 using DoorManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -57,9 +58,9 @@ builder.Services.AddAuthentication(options =>
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = configuration.GetValue<string>("JwtSettings:Issuer"),
-                ValidAudience = configuration.GetValue<string>("JwtSettings:Audience"),
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetValue<string>("JwtSettings:Key")))
+                ValidIssuer = configuration.GetSection("Jwt")["Issuer"],
+                ValidAudience = configuration.GetSection("Jwt")["Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt")["Key"]))
             };
         });
 builder.Services.AddControllers();
