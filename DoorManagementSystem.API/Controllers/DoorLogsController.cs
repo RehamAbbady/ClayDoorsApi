@@ -24,7 +24,7 @@ namespace DoorManagementSystem.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var logs = await _doorLogsService.GetAccessLogsAsync(query.UserId,query.DoorId , query.StartDate, query.EndDate, query.IsSuccess);
+            var logs = await _doorLogsService.GetAccessLogsAsync(query.UserId, query.DoorId, query.StartDate, query.EndDate, query.IsSuccess);
             return Ok(logs);
         }
     }

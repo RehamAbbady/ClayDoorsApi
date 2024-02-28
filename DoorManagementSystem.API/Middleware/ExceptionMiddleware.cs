@@ -29,12 +29,12 @@ namespace DoorManagementSystem.API.Middleware
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = StatusCodes.Status500InternalServerError; 
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
 
             return context.Response.WriteAsync(new ErrorDetails
             {
                 StatusCode = context.Response.StatusCode,
-                Message = $"Internal Server Error {exception.Message}" 
+                Message = $"Internal Server Error {exception.Message}"
             }.ToString());
         }
 

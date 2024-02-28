@@ -8,7 +8,7 @@ namespace DoorManagementSystem.Application.Services
     {
         public string HashPin(string pin)
         {
-            byte[] salt = new byte[128 / 8]; 
+            byte[] salt = new byte[128 / 8];
             using (var rng = RandomNumberGenerator.Create())
             {
                 rng.GetBytes(salt);
@@ -18,7 +18,7 @@ namespace DoorManagementSystem.Application.Services
                 password: pin,
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000, 
+                iterationCount: 10000,
                 numBytesRequested: 256 / 8));
 
             return $"{Convert.ToBase64String(salt)}.{hashed}";
@@ -29,7 +29,7 @@ namespace DoorManagementSystem.Application.Services
             var parts = storedHash.Split('.');
             if (parts.Length != 2)
             {
-                return false; 
+                return false;
             }
 
             var salt = Convert.FromBase64String(parts[0]);
@@ -39,8 +39,8 @@ namespace DoorManagementSystem.Application.Services
                 password: providedPin,
                 salt: salt,
                 prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 10000, 
-                numBytesRequested: 256 / 8)); 
+                iterationCount: 10000,
+                numBytesRequested: 256 / 8));
 
             return hashedProvidedPin == hash;
         }

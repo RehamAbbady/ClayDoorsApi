@@ -1,17 +1,10 @@
-﻿using DoorManagementSystem.Application.DTOs;
-using DoorManagementSystem.Application.Interfaces.IServices;
+﻿using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Application.Services
 {
@@ -31,14 +24,14 @@ namespace DoorManagementSystem.Application.Services
 
         };
 
-           
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtKey"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expiry = DateTime.Now.AddDays(1);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["JwtIssuer"], 
+                issuer: _configuration["JwtIssuer"],
                 audience: _configuration["JwtAudience"],
                 claims: claims,
                 expires: expiry,

@@ -1,11 +1,6 @@
 ﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Infrastructure.Repositories
 {
@@ -14,7 +9,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
         private readonly DoorManagementContext _context;
         public DoorsRepository(DoorManagementContext context)
         {
-            _context= context;
+            _context = context;
         }
 
         public async Task<DoorLogs> InsertDoorLogs(DateTime? startDate, DateTime? endDate, int? userId)

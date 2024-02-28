@@ -1,5 +1,4 @@
-﻿using DoorManagementSystem.Application.DTOs;
-using DoorManagementSystem.Application.Interfaces.IRepositories;
+﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
@@ -28,7 +27,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
         public async Task<Users?> GetUserByEmailAsync(string email)
         {
             return await _context.Users
-                                 .AsNoTracking() 
+                                 .AsNoTracking()
                                  .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
         }
         public async Task<List<UserTags>> GetUserTagsAsync(int userId)
@@ -57,7 +56,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
 
             if (userRole == null)
             {
-                return false; 
+                return false;
             }
 
             _context.UserRoles.Remove(userRole);
@@ -70,7 +69,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 .AnyAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
             if (exists)
             {
-                return false; 
+                return false;
             }
 
             var userRole = new UserRoles { UserId = userId, RoleId = roleId };
@@ -81,14 +80,14 @@ namespace DoorManagementSystem.Infrastructure.Repositories
 
         public async Task<bool> IsUserAdminForDoorAsync(int userId, int doorId)
         {
-         
+
             var isAdminForDoor = await _context.UserRoles
                 .Join(_context.RoleDoorAccess,
                       userRole => userRole.RoleId,
                       roleDoor => roleDoor.RoleId,
                       (userRole, roleDoor) => new { userRole, roleDoor })
                 .Where(x => x.userRole.UserId == userId && x.roleDoor.DoorId == doorId)
-                .AnyAsync(x => x.userRole.AdminRole); 
+                .AnyAsync(x => x.userRole.AdminRole);
 
             return isAdminForDoor;
         }

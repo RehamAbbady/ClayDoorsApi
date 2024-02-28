@@ -1,11 +1,6 @@
 ﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Infrastructure.Repositories
 {
@@ -21,7 +16,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
         {
             if (await CheckAccessAsync(roleId, doorId))
             {
-                return false; 
+                return false;
             }
 
             _context.RoleDoorAccess.Add(new RoleDoorAccess { RoleId = roleId, DoorId = doorId });
@@ -35,7 +30,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 .FirstOrDefaultAsync(rda => rda.RoleId == roleId && rda.DoorId == doorId);
             if (access == null)
             {
-                return false; 
+                return false;
             }
 
             _context.RoleDoorAccess.Remove(access);

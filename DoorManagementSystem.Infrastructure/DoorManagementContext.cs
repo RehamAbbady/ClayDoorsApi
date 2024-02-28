@@ -1,6 +1,5 @@
 ﻿using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 
 namespace DoorManagementSystem.Infrastructure
@@ -36,7 +35,7 @@ namespace DoorManagementSystem.Infrastructure
                 .HasIndex(u => u.Email);
 
             modelBuilder.Entity<Users>()
-                .HasIndex(u => u.Email) 
+                .HasIndex(u => u.Email)
                 .IsUnique();
             #endregion
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Domain.Entities
 {
@@ -33,7 +28,7 @@ namespace DoorManagementSystem.Domain.Entities
         public IList<UserRoles> UserRoles { get; set; }
         public IList<UserTags> UserTags { get; set; }
         public IList<DoorLogs> DoorLogs { get; set; }
-       // public IList<DoorAccess> DoorAccesses { get; set; }
+        // public IList<DoorAccess> DoorAccesses { get; set; }
 
     }
 }

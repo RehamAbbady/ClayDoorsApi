@@ -1,14 +1,7 @@
 ﻿using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
-using DoorManagementSystem.Application.Services;
-using DoorManagementSystem.Domain.Entities;
-using DoorManagementSystem.Infrastructure.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace DoorManagementSystem.API.Controllers
 {
@@ -30,7 +23,7 @@ namespace DoorManagementSystem.API.Controllers
         public async Task<IActionResult> GenerateToken([FromBody] AuthRequestDto authRequest)
         {
             var user = await _userRepository.GetUserByEmailAsync(authRequest.Email);
-        
+
             if (user == null || !_securityService.VerifyPin(authRequest.Pin, user.PinHash))
             {
                 return Unauthorized();
