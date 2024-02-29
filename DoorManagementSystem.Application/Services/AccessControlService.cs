@@ -2,7 +2,6 @@
 using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Entities;
 using DoorManagementSystem.Domain.Enums;
-using System.Security;
 using System.Security.Claims;
 
 namespace DoorManagementSystem.Application.Services
@@ -40,7 +39,7 @@ namespace DoorManagementSystem.Application.Services
             }
 
             var roleDoorResult = await _rolesRepository.GrantAccessAsync(roleId, doorId);
-            if (roleDoorResult.Key==false)
+            if (roleDoorResult.Key == false)
             {
                 return roleDoorResult;
             }
@@ -114,7 +113,7 @@ namespace DoorManagementSystem.Application.Services
             });
         }
 
-     
+
     }
 
 

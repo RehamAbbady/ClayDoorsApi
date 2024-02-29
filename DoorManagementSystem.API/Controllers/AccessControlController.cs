@@ -1,11 +1,6 @@
 ﻿using DoorManagementSystem.API.Models;
 using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Application.Interfaces.IServices;
-using DoorManagementSystem.Application.Services;
-using DoorManagementSystem.Domain.Entities;
-using DoorManagementSystem.Domain.Enums;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +18,7 @@ namespace DoorManagementSystem.API.Controllers
             _accessControlService = accessControlService;
         }
         [HttpPost("grant")]
-        public async Task<IActionResult> GrantAccess([FromBody]AccessRequestDto request)
+        public async Task<IActionResult> GrantAccess([FromBody] AccessRequestDto request)
         {
             if (request == null || !ModelState.IsValid)
             {

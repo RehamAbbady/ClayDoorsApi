@@ -1,6 +1,5 @@
 ﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace DoorManagementSystem.Infrastructure.Repositories
 {

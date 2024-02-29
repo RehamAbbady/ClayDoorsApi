@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace DoorManagementSystem.API.Models
+﻿namespace DoorManagementSystem.API.Models
 {
     public class AccessLogQuery
     {

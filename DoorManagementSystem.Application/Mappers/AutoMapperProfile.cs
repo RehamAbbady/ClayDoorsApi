@@ -10,7 +10,7 @@ namespace DoorManagementSystem.Application.Mappers
         {
             CreateMap<UserDto, User>().ReverseMap();
             CreateMap<AccessRequestDto, RoleDoor>().ReverseMap();
-            CreateMap<UserDto,User>().ReverseMap();
+            CreateMap<UserDto, User>().ReverseMap();
             CreateMap<AccessLogDto, DoorLog>().ReverseMap();
 
 

@@ -1,5 +1,4 @@
 ﻿using DoorManagementSystem.Application.DTOs;
-using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;

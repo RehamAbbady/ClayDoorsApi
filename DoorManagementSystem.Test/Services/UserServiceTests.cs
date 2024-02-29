@@ -1,11 +1,9 @@
-using Xunit;
-using Moq;
+using AutoMapper;
+using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Services;
-using AutoMapper;
-using System.Threading.Tasks;
 using DoorManagementSystem.Domain.Entities;
-using DoorManagementSystem.Application.DTOs;
+using Moq;
 
 namespace DoorManagementSystem.Test.Services
 {

@@ -1,12 +1,10 @@
-using Xunit;
-using Moq;
 using DoorManagementSystem.Application.Interfaces.IRepositories;
-using DoorManagementSystem.Application.Services;
-using DoorManagementSystem.Domain.Enums;
-using System.Threading.Tasks;
-using System.Security.Claims;
 using DoorManagementSystem.Application.Interfaces.IServices;
+using DoorManagementSystem.Application.Services;
 using DoorManagementSystem.Domain.Entities;
+using DoorManagementSystem.Domain.Enums;
+using Moq;
+using System.Security.Claims;
 
 namespace DoorManagementSystem.Test.Services
 {

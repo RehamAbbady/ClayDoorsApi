@@ -1,6 +1,4 @@
-﻿using DoorManagementSystem.Domain.Entities;
-
-namespace DoorManagementSystem.Application.Interfaces.IRepositories
+﻿namespace DoorManagementSystem.Application.Interfaces.IRepositories
 {
     public interface IRolesRepository
     {

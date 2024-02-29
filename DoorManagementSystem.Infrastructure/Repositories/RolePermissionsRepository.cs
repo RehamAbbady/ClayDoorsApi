@@ -1,11 +1,6 @@
 ﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DoorManagementSystem.Infrastructure.Repositories
 {
@@ -39,7 +34,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 };
                 _context.RolePermissions.Add(rolePermission);
                 await _context.SaveChangesAsync();
-                return new KeyValuePair<bool, string>(true,"role permission added");
+                return new KeyValuePair<bool, string>(true, "role permission added");
             }
 
             return new KeyValuePair<bool, string>(false, "role permission already exists");
@@ -56,7 +51,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 return new KeyValuePair<bool, string>(true, "role permission deleted");
 
             }
-            return new KeyValuePair<bool, string>(false,"role permission does not exist");
+            return new KeyValuePair<bool, string>(false, "role permission does not exist");
         }
 
     }

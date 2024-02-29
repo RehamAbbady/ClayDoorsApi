@@ -2,10 +2,10 @@
 {
     public enum Permissions
     {
-        OpenDoor=1,
+        OpenDoor = 1,
         ViewLogs,
         GrantPermission,
         RevokePermission,
-        
+
     }
 }

@@ -1,12 +1,6 @@
 ﻿using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static DoorManagementSystem.Application.Services.RolePermissionService;
 
 namespace DoorManagementSystem.Application.Services
 {

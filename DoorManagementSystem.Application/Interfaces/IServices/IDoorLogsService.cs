@@ -1,5 +1,4 @@
 ﻿using DoorManagementSystem.Application.DTOs;
-using DoorManagementSystem.Domain.Entities;
 
 namespace DoorManagementSystem.Application.Interfaces.IServices
 {

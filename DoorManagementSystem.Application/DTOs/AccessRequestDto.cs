@@ -1,5 +1,4 @@
-﻿using DoorManagementSystem.Domain.Entities;
-using DoorManagementSystem.Domain.Enums;
+﻿using DoorManagementSystem.Domain.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace DoorManagementSystem.Application.DTOs

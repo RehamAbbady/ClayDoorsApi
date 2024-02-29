@@ -6,7 +6,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
 {
     public class RolesRepository : IRolesRepository
     {
-        private readonly DoorManagementContext _context; 
+        private readonly DoorManagementContext _context;
 
         public RolesRepository(DoorManagementContext context)
         {

@@ -25,7 +25,7 @@ namespace DoorManagementSystem.Infrastructure
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-          //  modelBuilder.HasDefaultSchema("access_control");
+            //  modelBuilder.HasDefaultSchema("access_control");
 
 
             #region keys
@@ -89,7 +89,7 @@ namespace DoorManagementSystem.Infrastructure
                 .HasForeignKey(dl => dl.UserID);
 
 
-            
+
 
             modelBuilder.Entity<RolePermission>()
                 .HasOne(rp => rp.Role)

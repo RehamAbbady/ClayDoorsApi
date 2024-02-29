@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-
-namespace DoorManagementSystem.Application.DTOs
+﻿namespace DoorManagementSystem.Application.DTOs
 {
     public class AccessLogDto
     {

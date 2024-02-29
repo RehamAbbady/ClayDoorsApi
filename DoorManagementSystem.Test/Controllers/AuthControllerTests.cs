@@ -1,11 +1,8 @@
-using Xunit;
-using Moq;
-using DoorManagementSystem.Application.Interfaces.IRepositories;
-using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.API.Controllers;
 using DoorManagementSystem.Application.DTOs;
-using DoorManagementSystem.Domain.Entities;
+using DoorManagementSystem.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Mvc;
+using Moq;
 
 namespace DoorManagementSystem.Test.Controllers
 {
