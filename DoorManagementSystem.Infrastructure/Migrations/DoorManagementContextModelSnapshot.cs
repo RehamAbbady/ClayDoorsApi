@@ -17,49 +17,12 @@ namespace DoorManagementSystem.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("door_user")
                 .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.DoorLogs", b =>
-                {
-                    b.Property<int>("LogId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("log_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LogId"));
-
-                    b.Property<DateTime>("AccessDateTime")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("access_date_time");
-
-                    b.Property<int>("DoorID")
-                        .HasColumnType("integer")
-                        .HasColumnName("door_id");
-
-                    b.Property<bool>("Success")
-                        .HasColumnType("boolean")
-                        .HasColumnName("success");
-
-                    b.Property<int>("UserID")
-                        .HasColumnType("integer")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("LogId");
-
-                    b.HasIndex("AccessDateTime");
-
-                    b.HasIndex("DoorID");
-
-                    b.HasIndex("UserID");
-
-                    b.ToTable("door_logs", "door_user");
-                });
-
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Doors", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Door", b =>
                 {
                     b.Property<int>("DoorId")
                         .ValueGeneratedOnAdd()
@@ -91,36 +54,69 @@ namespace DoorManagementSystem.Infrastructure.Migrations
 
                     b.HasIndex("Location");
 
-                    b.ToTable("doors", "door_user");
+                    b.ToTable("doors");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RoleDoor", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.DoorLog", b =>
                 {
-                    b.Property<int>("RoleDoorId")
+                    b.Property<int>("LogId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasColumnName("role_door_id");
+                        .HasColumnName("log_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleDoorId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("LogId"));
 
-                    b.Property<int>("DoorId")
+                    b.Property<DateTime>("AccessDateTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("access_date_time");
+
+                    b.Property<int>("DoorID")
                         .HasColumnType("integer")
                         .HasColumnName("door_id");
 
-                    b.Property<int>("RoleId")
+                    b.Property<bool>("IsRemoteAccessRequested")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_remote_access_requested");
+
+                    b.Property<bool>("Success")
+                        .HasColumnType("boolean")
+                        .HasColumnName("success");
+
+                    b.Property<int>("UserID")
                         .HasColumnType("integer")
-                        .HasColumnName("role_id");
+                        .HasColumnName("user_id");
 
-                    b.HasKey("RoleDoorId");
+                    b.HasKey("LogId");
 
-                    b.HasIndex("DoorId");
+                    b.HasIndex("AccessDateTime");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("DoorID");
 
-                    b.ToTable("role_door", "door_user");
+                    b.HasIndex("UserID");
+
+                    b.ToTable("door_logs");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Roles", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Permission", b =>
+                {
+                    b.Property<int>("PermissionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("permission_id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("PermissionId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("PermissionId");
+
+                    b.ToTable("permissions");
+                });
+
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Role", b =>
                 {
                     b.Property<int>("RoleId")
                         .ValueGeneratedOnAdd()
@@ -129,10 +125,6 @@ namespace DoorManagementSystem.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RoleId"));
 
-                    b.Property<bool>("CanAccessLogs")
-                        .HasColumnType("boolean")
-                        .HasColumnName("can_access_logs");
-
                     b.Property<string>("RoleName")
                         .IsRequired()
                         .HasColumnType("text")
@@ -140,61 +132,56 @@ namespace DoorManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("RoleId");
 
-                    b.ToTable("roles", "door_user");
+                    b.ToTable("roles");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserRoles", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RoleDoorAccess", b =>
                 {
-                    b.Property<int>("UserRoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasColumnName("user_role_id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("UserRoleId"));
-
                     b.Property<int>("RoleId")
                         .HasColumnType("integer")
                         .HasColumnName("role_id");
 
-                    b.Property<int>("UserId")
+                    b.Property<int>("DoorId")
                         .HasColumnType("integer")
-                        .HasColumnName("user_id");
+                        .HasColumnName("door_id");
 
-                    b.HasKey("UserRoleId");
+                    b.HasKey("RoleId", "DoorId");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("DoorId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("user_roles", "door_user");
+                    b.ToTable("role_door");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserTags", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RolePermission", b =>
                 {
-                    b.Property<int>("TagId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer")
-                        .HasColumnName("tag_id");
+                        .HasColumnName("role_id");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("TagId"));
-
-                    b.Property<string>("TagCode")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("tag_code");
-
-                    b.Property<int>("UserId")
+                    b.Property<int>("PermissionId")
                         .HasColumnType("integer")
-                        .HasColumnName("user_id");
+                        .HasColumnName("permission_id");
 
-                    b.HasKey("TagId");
+                    b.Property<DateTime?>("EndTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("end_time");
 
-                    b.HasIndex("UserId");
+                    b.Property<bool>("IsTemporary")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_temporary");
 
-                    b.ToTable("user_tags", "door_user");
+                    b.Property<DateTime?>("StartTime")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("start_time");
+
+                    b.HasKey("RoleId", "PermissionId");
+
+                    b.HasIndex("PermissionId");
+
+                    b.ToTable("role_permission");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Users", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.User", b =>
                 {
                     b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
@@ -218,23 +205,70 @@ namespace DoorManagementSystem.Infrastructure.Migrations
                         .HasColumnType("text")
                         .HasColumnName("last_name");
 
+                    b.Property<string>("PinHash")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("pin_hash");
+
                     b.HasKey("UserId");
 
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("users", "door_user");
+                    b.ToTable("users");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.DoorLogs", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserRole", b =>
                 {
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Doors", "Door")
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
+                    b.Property<bool>("AdminRole")
+                        .HasColumnType("boolean")
+                        .HasColumnName("admin_role");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("user_roles");
+                });
+
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserTag", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer")
+                        .HasColumnName("user_id");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("integer")
+                        .HasColumnName("tag_id");
+
+                    b.Property<string>("TagCode")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .HasColumnType("character varying(12)")
+                        .HasColumnName("tag_code");
+
+                    b.HasKey("UserId", "TagId");
+
+                    b.ToTable("user_tags");
+                });
+
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.DoorLog", b =>
+                {
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Door", "Door")
                         .WithMany("DoorLogs")
                         .HasForeignKey("DoorID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Users", "User")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.User", "User")
                         .WithMany("DoorLogs")
                         .HasForeignKey("UserID")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -245,15 +279,15 @@ namespace DoorManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RoleDoor", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RoleDoorAccess", b =>
                 {
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Doors", "Door")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Door", "Door")
                         .WithMany("RoleDoors")
                         .HasForeignKey("DoorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Roles", "Role")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Role", "Role")
                         .WithMany("RoleDoors")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -264,15 +298,34 @@ namespace DoorManagementSystem.Infrastructure.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserRoles", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.RolePermission", b =>
                 {
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Roles", "Role")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Permission", "Permission")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("PermissionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Role", "Role")
+                        .WithMany("RolePermissions")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserRole", b =>
+                {
+                    b.HasOne("DoorManagementSystem.Domain.Entities.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Users", "User")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -283,9 +336,9 @@ namespace DoorManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserTags", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.UserTag", b =>
                 {
-                    b.HasOne("DoorManagementSystem.Domain.Entities.Users", "User")
+                    b.HasOne("DoorManagementSystem.Domain.Entities.User", "User")
                         .WithMany("UserTags")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -294,21 +347,28 @@ namespace DoorManagementSystem.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Doors", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Door", b =>
                 {
                     b.Navigation("DoorLogs");
 
                     b.Navigation("RoleDoors");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Roles", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Permission", b =>
+                {
+                    b.Navigation("RolePermissions");
+                });
+
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Role", b =>
                 {
                     b.Navigation("RoleDoors");
+
+                    b.Navigation("RolePermissions");
 
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.Users", b =>
+            modelBuilder.Entity("DoorManagementSystem.Domain.Entities.User", b =>
                 {
                     b.Navigation("DoorLogs");
 

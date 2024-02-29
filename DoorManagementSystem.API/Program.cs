@@ -33,8 +33,9 @@ builder.Services.AddDbContext<DoorManagementContext>(
         options => options.UseNpgsql(configuration.GetConnectionString("DoorManagementDatabase")));
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 builder.Services.AddScoped<IDoorsRepository, DoorsRepository>();
-builder.Services.AddScoped<IAccessControlRepository, AccessControlRepository>();
 builder.Services.AddScoped<IDoorLogsRepository, DoorLogsRepository>();
+builder.Services.AddScoped<IRolePermissionsRepository, RolePermissionsRepository>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
 
 
 builder.Services.AddScoped<IUsersService, UserService>();
@@ -42,6 +43,9 @@ builder.Services.AddScoped<IAccessControlService, AccessControlService>();
 builder.Services.AddScoped<IDoorLogsService, DoorLogsService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<ISecurityService, SecurityService>();
+builder.Services.AddScoped<IRolePermissionService, RolePermissionService>();
+builder.Services.AddScoped<IRolesRepository, RolesRepository>();
+
 
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 

@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace DoorManagementSystem.Domain.Entities
 {
     [Table("role_door")]
-    public class RoleDoorAccess
+    public class RoleDoor
     {
-        [Key]
-        [Column("role_door_id")]
-
-        public int RoleDoorId { get; set; }
 
         [Required]
         [Column("role_id")]

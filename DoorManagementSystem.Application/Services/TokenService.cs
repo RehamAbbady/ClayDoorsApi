@@ -21,11 +21,9 @@ namespace DoorManagementSystem.Application.Services
         {
             var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString())
+            new Claim("user_id", user.UserId.ToString())
 
         };
-
-
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt")["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

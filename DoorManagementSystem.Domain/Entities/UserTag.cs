@@ -6,11 +6,9 @@ namespace DoorManagementSystem.Domain.Entities
     [Table("user_tags")]
     public class UserTag
     {
-        [Key]
         [Column("tag_id")]
         public int TagId { get; set; }
 
-        [Required]
         [Column("user_id")]
         public int UserId { get; set; }
 

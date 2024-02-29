@@ -25,7 +25,7 @@ namespace DoorManagementSystem.Domain.Entities
         [Column("remote_acccess_enabled")]
         public bool RemoteAccessEnabled { get; set; }
 
-        public IList<RoleDoorAccess> RoleDoors { get; set; }
+        public IList<RoleDoor> RoleDoors { get; set; }
         public IList<DoorLog> DoorLogs { get; set; }
 
 

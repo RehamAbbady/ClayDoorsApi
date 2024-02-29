@@ -6,20 +6,23 @@ using DoorManagementSystem.Application.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DoorManagementSystem.API.Models;
+using DoorManagementSystem.Domain.Enums;
 
 namespace DoorManagementSystem.Test
 {
     public class AccessControlControllerTests
     {
         private readonly Mock<IAccessControlService> _accessControlServiceMock = new();
+        private readonly Mock<IRolePermissionService> _rolePermissionServiceMock = new();
+
 
         [Fact]
         public async Task GrantAccess_ValidRequest_ReturnsOkResult()
         {
             // Arrange
-            var request = new AccessRequestDto { RoleId = 1, DoorId = 1 };
-            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(request.RoleId, request.DoorId)).ReturnsAsync(true);
-            var controller = new AccessControlController(_accessControlServiceMock.Object);
+            var request = new AccessRequestDto { RoleId = 1, DoorId = 1 ,UserId=1};
+            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(request.DoorId, request.RoleId, Permissions.OpenDoor, request.UserId)).ReturnsAsync(new KeyValuePair<bool, string>(true,"success"));
+            var controller = new AccessControlController(_accessControlServiceMock.Object, _rolePermissionServiceMock.Object);
 
             // Act
             var result = await controller.GrantAccess(request);
@@ -33,9 +36,9 @@ namespace DoorManagementSystem.Test
         public async Task RevokeAccess_ValidRequest_ReturnsOkResult()
         {
             // Arrange
-            var request = new AccessRequestDto { RoleId = 1, DoorId = 1 };
-            _accessControlServiceMock.Setup(service => service.RevokeAccessAsync(request.RoleId, request.DoorId)).ReturnsAsync(true);
-            var controller = new AccessControlController(_accessControlServiceMock.Object);
+            var request = new AccessRequestDto { RoleId = 1, DoorId = 1, UserId = 1 };
+            _accessControlServiceMock.Setup(service => service.RevokeAccessAsync(request.DoorId, request.RoleId, Permissions.OpenDoor, request.UserId)).ReturnsAsync(new KeyValuePair<bool, string>(true, "success"));
+            var controller = new AccessControlController(_accessControlServiceMock.Object, _rolePermissionServiceMock.Object);
 
             // Act
             var result = await controller.RevokeAccess(request);
@@ -50,12 +53,12 @@ namespace DoorManagementSystem.Test
         public async Task CheckAccess_ValidRequest_ReturnsOkResult()
         {
             // Arrange
-            var request = new AccessCheck { UserId = 1, DoorId = 1, TagCode = "123123123123", IsRemoteAccessRequested = false };
-            _accessControlServiceMock.Setup(service => service.CanAccessDoorAsync(request.UserId, request.DoorId, request.TagCode, request.IsRemoteAccessRequested)).ReturnsAsync(true);
-            var controller = new AccessControlController(_accessControlServiceMock.Object);
+            
+            _accessControlServiceMock.Setup(service => service.CanOpenDoorAsync(1, 1, "123123123123", false)).ReturnsAsync(true);
+            var controller = new AccessControlController(_accessControlServiceMock.Object, _rolePermissionServiceMock.Object);
 
             // Act
-            var result = await controller.CheckAccess(request);
+            var result = await controller.CheckAccess(1, 1, "123123123123", false);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
@@ -65,10 +68,11 @@ namespace DoorManagementSystem.Test
         [Fact]
         public async Task GrantAccess_InvalidRequest_ReturnsBadRequestResult()
         {
+      
             // Arrange
-            var request = new AccessRequestDto { RoleId = 1, DoorId = 1 };
-            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(request.RoleId, request.DoorId)).ReturnsAsync(false);
-            var controller = new AccessControlController(_accessControlServiceMock.Object);
+            var request = new AccessRequestDto { RoleId = 1, DoorId = 1, UserId = 1 };
+            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(request.DoorId, request.RoleId, Permissions.OpenDoor, request.UserId)).ReturnsAsync(new KeyValuePair<bool, string>(false, "fail"));
+            var controller = new AccessControlController(_accessControlServiceMock.Object, _rolePermissionServiceMock.Object);
 
             // Act
             var result = await controller.GrantAccess(request);
@@ -82,8 +86,8 @@ namespace DoorManagementSystem.Test
         public async Task GrantAccess_NullRequest_ReturnsBadRequestResult()
         {
             // Arrange
-            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(It.IsAny<int>(), It.IsAny<int>())).ReturnsAsync(false);
-            var controller = new AccessControlController(_accessControlServiceMock.Object);
+            _accessControlServiceMock.Setup(service => service.GrantAccessAsync(0,0,0,null)).ReturnsAsync(new KeyValuePair<bool, string>(false, "fail"));
+            var controller = new AccessControlController(_accessControlServiceMock.Object, _rolePermissionServiceMock.Object);
 
             // Act
             var result = await controller.GrantAccess(null);

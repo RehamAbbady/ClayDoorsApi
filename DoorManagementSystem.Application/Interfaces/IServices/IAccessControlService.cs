@@ -1,9 +1,15 @@
-﻿namespace DoorManagementSystem.Application.Interfaces.IServices
+﻿using DoorManagementSystem.Domain.Entities;
+using DoorManagementSystem.Domain.Enums;
+using System.Security.Claims;
+
+namespace DoorManagementSystem.Application.Interfaces.IServices
 {
     public interface IAccessControlService
     {
-        Task<bool> GrantAccessAsync(int roleId, int doorId);
-        Task<bool> RevokeAccessAsync(int roleId, int doorId);
-        Task<bool> CanAccessDoorAsync(int userId, int doorId, string tagCode = null, bool isRemoteAccessRequested = false);
+        Task<KeyValuePair<bool, string>> GrantAccessAsync(int doorId,int roleId,Permissions permissions, int? userId = null);
+        Task<KeyValuePair<bool, string>> RevokeAccessAsync(int doorId, int roleId, Permissions permissions, int? userId = null);
+        Task<bool> CanOpenDoorAsync(int userId, int doorId, string tagCode = null, bool isRemoteAccessRequested = false);
+        Task<bool> AuthorizeRequestUserPermissionAsync(IEnumerable<Claim> claims, int doorId, Permissions permissions);
+
     }
 }

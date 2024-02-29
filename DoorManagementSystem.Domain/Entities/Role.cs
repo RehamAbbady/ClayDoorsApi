@@ -14,7 +14,9 @@ namespace DoorManagementSystem.Domain.Entities
         public string RoleName { get; set; }
 
         public IList<UserRole> UserRoles { get; set; }
-        public IList<RoleDoorAccess> RoleDoors { get; set; }
+        public IList<RoleDoor> RoleDoors { get; set; }
+        public IList<RolePermission> RolePermissions { get; set; }
+
 
     }
 }

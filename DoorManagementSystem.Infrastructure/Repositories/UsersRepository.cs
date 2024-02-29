@@ -15,11 +15,6 @@ namespace DoorManagementSystem.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
-        {
-            return await _context.Users.ToListAsync();
-        }
-
         public async Task<User?> GetByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
@@ -43,47 +38,34 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 .Select(ur => ur.Role)
                 .ToListAsync();
         }
-        public async Task<bool> RemoveRoleFromUserAsync(int userId, int roleId)
+        public async Task<KeyValuePair<bool, string>> RemoveRoleFromUserAsync(int userId, int roleId)
         {
             var userRole = await _context.UserRoles
                 .FirstOrDefaultAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
 
             if (userRole == null)
             {
-                return false;
+                return new KeyValuePair<bool, string>(false, "user role does not exist");
             }
 
             _context.UserRoles.Remove(userRole);
             await _context.SaveChangesAsync();
-            return true;
+            return new KeyValuePair<bool, string>(true, "user role removed");
         }
-        public async Task<bool> AddRoleToUserAsync(int userId, int roleId)
+        public async Task<KeyValuePair<bool, string>> AddRoleToUserAsync(int userId, int roleId)
         {
             var exists = await _context.UserRoles
                 .AnyAsync(ur => ur.UserId == userId && ur.RoleId == roleId);
             if (exists)
             {
-                return false;
+                return new KeyValuePair<bool, string>(false, "user role does already exist");
             }
 
             var userRole = new UserRole { UserId = userId, RoleId = roleId };
             _context.UserRoles.Add(userRole);
             await _context.SaveChangesAsync();
-            return true;
+            return new KeyValuePair<bool, string>(true, "user role added");
         }
 
-        public async Task<bool> IsUserAdminForDoorAsync(int userId, int doorId)
-        {
-
-            var isAdminForDoor = await _context.UserRoles
-                .Join(_context.RoleDoorAccess,
-                      userRole => userRole.RoleId,
-                      roleDoor => roleDoor.RoleId,
-                      (userRole, roleDoor) => new { userRole, roleDoor })
-                .Where(x => x.userRole.UserId == userId && x.roleDoor.DoorId == doorId)
-                .AnyAsync(x => x.userRole.AdminRole);
-
-            return isAdminForDoor;
-        }
     }
 }

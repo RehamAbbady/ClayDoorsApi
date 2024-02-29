@@ -3,6 +3,7 @@ using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Application.Interfaces.IRepositories;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Entities;
+using DoorManagementSystem.Domain.Enums;
 
 namespace DoorManagementSystem.Application.Services
 {
@@ -12,9 +13,10 @@ namespace DoorManagementSystem.Application.Services
         private readonly IDoorLogsRepository _doorLogsRepository;
         private readonly IMapper _mapper;
 
-        public DoorLogsService(IDoorLogsRepository doorLogRepository, IMapper mapper)
+        public DoorLogsService(IDoorLogsRepository doorLogRepository,IMapper mapper)
         {
             _doorLogsRepository = doorLogRepository;
+
             _mapper = mapper;
         }
 

@@ -1,5 +1,4 @@
-﻿using DoorManagementSystem.API.Filters;
-using DoorManagementSystem.API.Models;
+﻿using DoorManagementSystem.API.Models;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,7 +7,6 @@ namespace DoorManagementSystem.API.Controllers
 {
     [Route("api/door-logs")]
     [Authorize]
-    [AdminForDoorAuthorization]
 
     public class DoorLogsController : Controller
     {
