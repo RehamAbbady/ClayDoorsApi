@@ -1,12 +1,17 @@
-﻿namespace DoorManagementSystem.Application.DTOs
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+
+namespace DoorManagementSystem.Application.DTOs
 {
     public class AccessLogDto
     {
-        public int Id { get; set; }
-        public int UserId { get; set; }
-        public int DoorId { get; set; }
-        public DateTime AccessTime { get; set; }
-        public bool IsSuccess { get; set; }
+        public int LogId { get; set; }
+        public DateTime AccessDateTime { get; set; }
+        public bool Success { get; set; }
+        public int UserID { get; set; }
+
+        public int DoorID { get; set; }
+        public bool IsRemoteAccessRequested { get; set; }
     }
 
 }

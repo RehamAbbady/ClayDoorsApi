@@ -95,8 +95,9 @@ namespace DoorManagementSystem.Application.Services
             await LogAccessAttempt(userId, doorId, hasPermission, isRemoteAccessRequested);
             return hasPermission;
         }
-        public async Task<bool> AuthorizeRequestUserPermissionAsync(IEnumerable<Claim> claims, int doorId, Permissions permissions)
+        public async Task<bool> AuthorizeRequestUserPermissionAsync(ClaimsPrincipal claimsPrnicipal, int doorId, Permissions permissions)
         {
+            var claims = claimsPrnicipal.Claims;
             var requestserId = claims.FirstOrDefault(c => c.Type == "user_id")?.Value;
             bool requestUserUasAccess = await _rolePermissionService.HasPermissionForDoorAsync(int.Parse(requestserId), doorId, permissions);
             return requestUserUasAccess;

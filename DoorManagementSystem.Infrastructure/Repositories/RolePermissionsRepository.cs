@@ -18,7 +18,7 @@ namespace DoorManagementSystem.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<List<RolePermission>> GetRolePermissionsByRoleIdAsync(int roleId)
+        public async Task<IList<RolePermission>> GetRolePermissionsByRoleIdAsync(int roleId)
         {
             return await _context.RolePermissions
                 .Where(rp => rp.RoleId == roleId)
@@ -39,10 +39,10 @@ namespace DoorManagementSystem.Infrastructure.Repositories
                 };
                 _context.RolePermissions.Add(rolePermission);
                 await _context.SaveChangesAsync();
-                return new KeyValuePair<bool, string>(true,"role ermission added");
+                return new KeyValuePair<bool, string>(true,"role permission added");
             }
 
-            return new KeyValuePair<bool, string>(false, "role ermission already exists");
+            return new KeyValuePair<bool, string>(false, "role permission already exists");
         }
 
         public async Task<KeyValuePair<bool, string>> RevokePermissionFromRoleAsync(int roleId, int permissionId)

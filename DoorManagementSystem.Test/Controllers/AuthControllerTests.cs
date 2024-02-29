@@ -7,7 +7,7 @@ using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DoorManagementSystem.Test
+namespace DoorManagementSystem.Test.Controllers
 {
     public class AuthControllerTests
     {

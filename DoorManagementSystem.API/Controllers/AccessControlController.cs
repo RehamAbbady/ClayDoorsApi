@@ -17,12 +17,10 @@ namespace DoorManagementSystem.API.Controllers
     public class AccessControlController : Controller
     {
         private readonly IAccessControlService _accessControlService;
-        private readonly IRolePermissionService _rolePermissionService;
 
-        public AccessControlController(IAccessControlService accessControlService, IRolePermissionService rolePermissionService)
+        public AccessControlController(IAccessControlService accessControlService)
         {
             _accessControlService = accessControlService;
-            _rolePermissionService = rolePermissionService;
         }
         [HttpPost("grant")]
         public async Task<IActionResult> GrantAccess([FromBody]AccessRequestDto request)
@@ -31,9 +29,8 @@ namespace DoorManagementSystem.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var userClaims = User.Claims;
-
-            bool requestUserUasAccess = await _accessControlService.AuthorizeRequestUserPermissionAsync(userClaims, request.DoorId, request.RequestedPermission);
+            var claimsPrinciple = User;
+            bool requestUserUasAccess = await _accessControlService.AuthorizeRequestUserPermissionAsync(claimsPrinciple, request.DoorId, request.RequestedPermission);
             if (!requestUserUasAccess)
             {
                 return Unauthorized("unauothorized action");
@@ -51,9 +48,9 @@ namespace DoorManagementSystem.API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var userClaims = User.Claims;
+            var claimsPrinciple = User;
 
-            bool requestUserUasAccess = await _accessControlService.AuthorizeRequestUserPermissionAsync(userClaims, request.DoorId, request.RequestedPermission);
+            bool requestUserUasAccess = await _accessControlService.AuthorizeRequestUserPermissionAsync(claimsPrinciple, request.DoorId, request.RequestedPermission);
             if (!requestUserUasAccess)
             {
                 return Unauthorized("unauothorized action");
