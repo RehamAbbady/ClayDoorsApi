@@ -21,17 +21,22 @@ namespace DoorManagementSystem.Application.Services
         public async Task<bool> HasPermissionForDoorAsync(int userId, int doorId, Permissions permission)
         {
             var userRoles = await _usersRepository.GetUserRolesAsync(userId);
+
             foreach (var userRole in userRoles)
             {
                 var permissions = await _rolePermissionsRepository.GetRolePermissionsByRoleIdAsync(userRole.RoleId);
-                var access = await _rolesRepository.CheckAccessAsync(userRole.RoleId, doorId);
-                if (permissions.Any(p => p.Permission.Name == permission.ToString() &&
-                                         (!p.IsTemporary || (p.StartTime <= DateTime.UtcNow && p.EndTime >= DateTime.UtcNow)) &&
-                                         access))
-                {
-                    return true;
-                }
+                var roleAccess = await _rolesRepository.CheckAccessAsync(userRole.RoleId, doorId);
 
+                if (!roleAccess) continue; // Skip this role if there's no access to the door
+
+                foreach (var perm in permissions)
+                {
+                    if (perm.Permission.Name == permission.ToString() &&
+                        (!perm.IsTemporary || (perm.StartTime <= DateTime.UtcNow && perm.EndTime >= DateTime.UtcNow)))
+                    {
+                        return true;
+                    }
+                }
             }
             return false;
         }
