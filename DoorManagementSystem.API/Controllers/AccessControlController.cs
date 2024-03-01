@@ -1,12 +1,13 @@
 ﻿using DoorManagementSystem.API.Models;
 using DoorManagementSystem.Application.DTOs;
 using DoorManagementSystem.Application.Interfaces.IServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
 namespace DoorManagementSystem.API.Controllers
 {
-    //  [Authorize]
+    [Authorize]
     [Route("[controller]")]
 
     public class AccessControlController : Controller

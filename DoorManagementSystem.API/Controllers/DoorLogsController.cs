@@ -1,13 +1,13 @@
 ﻿using DoorManagementSystem.API.Models;
 using DoorManagementSystem.Application.Interfaces.IServices;
 using DoorManagementSystem.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DoorManagementSystem.API.Controllers
 {
+    [Authorize]
     [Route("/door-logs")]
-    // [Authorize]
-
     public class DoorLogsController : Controller
     {
         private readonly IDoorLogsService _doorLogsService;
